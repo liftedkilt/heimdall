@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "magnet",
     "start": "magnet start",
-    "test": "node_modules/.bin/mocha -u exports tests/unit/*"
+    "test": "node_modules/.bin/mocha -u exports tests/**/*"
   },
   "devDependencies": {
     "assert": "^1.4.1",

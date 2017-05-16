@@ -8,3 +8,8 @@ cache:
   yarn: true
   directories:
     - node_modules
+services:
+  - mongodb
+before_script:
+- cd /home/travis/build/heimdall-project/heimdall && yarn run dev &
+- sleep 5
