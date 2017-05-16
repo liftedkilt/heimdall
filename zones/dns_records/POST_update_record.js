@@ -12,7 +12,7 @@ export default async(req, res) => {
 	log.debug({
 		req: req
 	}, 'received request');
-	let error = validate.reqParams(req, 'cannot update record - missing required parameters');
+	let error = validate.reqParams(req, 'Cannot update record - missing required parameters');
 
 	if (error !== '') {
 		res.status(403).json(error);

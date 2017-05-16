@@ -32,7 +32,7 @@ export default async(req, res) => {
 				return data;
 			});
 		} catch(error) {
-			log.error({error: error}, 'Record could not be written to cloudflare');
+			log.error({error: error}, 'Record could not be written to Cloudflare');
 			data.id = '';
 			// Write record to DB
 			let entry = new Records(data);
@@ -40,7 +40,7 @@ export default async(req, res) => {
 			// Alert client that write partially failed
 			res.status(201).json({
 				result: 'Error',
-				message: 'Record was written to DB, but was not propogated to Cloudflare',
+				message: 'Record was written to DB, but was not propagated to Cloudflare',
 			});
 		}
 	}
