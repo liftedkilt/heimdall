@@ -9,7 +9,7 @@ global.cf = new cloudflare({
 	'email': config.cfEmail,
 	'key': config.cfToken,
 });
-global.cloudflare = require('cloudflare');
+global.Cloudflare = require('cloudflare');
 global.log = bunyan.createLogger({'name': 'heimdall', 'level': 'info'});
 global.Records = require('./models/records');
 

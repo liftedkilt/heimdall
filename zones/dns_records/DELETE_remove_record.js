@@ -10,16 +10,14 @@ export const route = {
 
 export default async(req, res) => {
 	log.debug({req: req}, 'DELETE received for %s record on zone %s', req.params.identifier, req.params.zone_identifier);
-
-	let record = Remap.reqParams(req);
-	Records.findOneAndRemove(record).exec();
-
 	let data = {
 		zoneId: req.params.zone_identifier,
 		id: req.params.identifier,
 	};
-
-	let generatedRecord = await cloudflare.DNSRecord.create(data);
+	let generatedRecord = await Cloudflare.DNSRecord.create(data);
+	let record = await Remap.reqParams(req);
+	// TODO: try/catch
+	Records.findOneAndRemove(record).exec();
 
 	cf.deleteDNS(generatedRecord);
 

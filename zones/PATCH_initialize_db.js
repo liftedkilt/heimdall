@@ -1,6 +1,7 @@
 'use strict';
 
-import parseCloudflare from '../lib/parsecloudflare';
+import Validate from '../lib/validate';
+import CFRecords from '../lib/cloudflarerecords';
 
 export const route = {
 	method: 'patch',
@@ -8,25 +9,14 @@ export const route = {
 	type: 'json',
 };
 
-function listCloudflareRecords(zone) {
-	return cf.browseDNS(zone, {page: 1, per_page: 50})
-			.then(function (result) {
-			let promises = [Promise.resolve(result)];
-			for (let i = 2; i <= result.totalPages; i++) {
-				promises.push(client.browseDNS(zone, {page: i, per_page: 50}));
-			}
-			return Promise.all(promises);
-		});
-}
-
 export default async(req, res) => {
 	log.info('INITIALIZING zone: %s', req.params.zone_identifier);
 
 	let zoneId = req.params.zone_identifier;
-	let records = await listCloudflareRecords(zoneId);
+	let records = await CFRecords.getRecords(zoneId);
 
 	records[0].result.forEach(function(entry) {
-		let entryClean = parseCloudflare.cleanRecords(entry);
+		let entryClean = Validate.cleanRecords(entry);
 
 		log.info(entryClean);
 		let record = new Records(entryClean);

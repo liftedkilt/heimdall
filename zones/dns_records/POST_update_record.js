@@ -10,65 +10,75 @@ export const route = {
 
 export default async(req, res) => {
 	log.debug({
-		req: req
+		req: req,
 	}, 'received request');
 	let error = validate.reqParams(req, 'Cannot update record - missing required parameters');
 
 	if (error !== '') {
 		res.status(403).json(error);
 	} else {
+		let cfResult = null;
 		let data = req.body || {};
 		data.id = req.params.identifier;
 		data.zoneId = req.params.zone_identifier;
 
-		await Records.findOneAndUpdate({
-					id: data.id,
-					zoneId: data.zoneId,
-				},
-				data, {
-					new: true,
-				})
-			.then(function(record) {
-				let generatedRecord = cloudflare.DNSRecord.create(data);
+		let generatedRecord = Cloudflare.DNSRecord.create(data);
+		log.info(generatedRecord);
 
-				log.info(generatedRecord);
+		try {
+			await cf.editDNS(generatedRecord);
+			cfResult = true;
+		} catch (error) {
+			cfResult = false;
 
-				let editedRecord = {
-					'name': generatedRecord.name,
-					'content': generatedRecord.content,
-					'type': generatedRecord.type,
-					'ttl': generatedRecord.ttl,
-					'proxied': generatedRecord.proxied,
-				};
+			log.error({
+				error: error,
+			}, 'Error updating a record in Cloudflare');
+		}
 
-				log.info(editedRecord);
-				return cf.editDNS(generatedRecord);
-			})
-			.then(function(record) {
-				log.info('record updated');
-				res.status(200).json({
-					result: 'success',
-					message: 'Record updated',
-					info: {
-						content: req.body.content,
-						name: req.body.name,
-						proxied: req.body.proxied,
-						ttl: req.body.ttl,
-						type: req.body.type,
+		try {
+			await Records.findOneAndUpdate({
+						id: data.id,
+						zoneId: data.zoneId,
 					},
-				});
-			})
-			.catch(function(error) {
-				log.error({
+					data, {
+						new: true,
+					});
+			log.info('record updated in MongoDB');
+		} catch (error) {
+			res.status(500).json({
+				result: 'error',
+				message: 'Cannot update record',
+				info: {
 					error: error,
-				}, 'Error updating a record');
-				res.status(500).json({
-					result: 'error',
-					message: 'Cannot update record',
-					info: {
-						error: error,
-					},
-				});
+				},
 			});
+		}
+
+		if (cfResult == true ) {
+			res.status(200).json({
+				result: 'success',
+				message: 'Record updated in both MongoDB and Cloudflare',
+				info: {
+					content: req.body.content,
+					name: req.body.name,
+					proxied: req.body.proxied,
+					ttl: req.body.ttl,
+					type: req.body.type,
+				},
+			});
+		} else if (cfResult == false) {
+			res.status(200).json({
+				result: 'partial',
+				message: 'Record updated in DB but not in Cloudflare - will be updated on next sync',
+				info: {
+					content: req.body.content,
+					name: req.body.name,
+					proxied: req.body.proxied,
+					ttl: req.body.ttl,
+					type: req.body.type,
+				},
+			});
+		}
 	}
 };

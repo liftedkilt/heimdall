@@ -3,9 +3,11 @@
   "description": "A proxy service that sits in front of Cloudflare providing more granular access control and local storage of all data for recovery and accounting",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "async": "^2.4.0",
     "bunyan": "^1.8.10",
     "cloudflare": "^1.1.1",
     "consul": "^0.29.0",
+    "lodash": "^4.17.4",
     "magnet": "^1.0.0-alpha.13",
     "mongoose": "^4.9.7"
   },

@@ -104,7 +104,7 @@ describe('Heimdall API Integration Tests', function() {
                     })
                     .end(function(err, res) {
                         expect(res.statusCode).to.equal(200);
-                        expect(res.body.message).to.equal('Record updated');
+                        expect(res.body.message).to.equal('Record updated in both MongoDB and Cloudflare');
                         expect(res.body.result).to.equal('success');
                         expect(res.body.info.name).to.equal('arecord2' || 'arecord2');
                     done();
@@ -126,7 +126,7 @@ describe('Heimdall API Integration Tests', function() {
                     })
                     .end(function(err, res) {
                         expect(res.statusCode).to.equal(200);
-                        expect(res.body.message).to.equal('Record updated');
+                        expect(res.body.message).to.equal('Record updated in both MongoDB and Cloudflare');
                         expect(res.body.result).to.equal('success');
                         expect(res.body.info.name).to.equal('cnamerecord2' || 'cnamerecord');
                     done();

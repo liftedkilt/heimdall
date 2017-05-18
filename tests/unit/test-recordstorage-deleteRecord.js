@@ -1,7 +1,7 @@
 'use strict';
 
 let assert = require('assert');
-let Remap = require('../../lib/remap');
+let Remap = require('../../.magnet/server/lib/remap');
 
 exports.it_should_return_an_ID_and_zoneId = function(done) {
 	let req = {

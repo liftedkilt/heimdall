@@ -19,7 +19,7 @@ export default async(req, res) => {
 		data.zoneId = req.params.zone_identifier;
 
 		try {
-			let generatedRecord = cloudflare.DNSRecord.create(data);
+			let generatedRecord = Cloudflare.DNSRecord.create(data);
 
 			return cf.addDNS(generatedRecord)
 			.then(async function(record) {

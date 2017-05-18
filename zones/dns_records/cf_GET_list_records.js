@@ -1,5 +1,7 @@
 'use strict';
 
+import CfRecords from '../../lib/cloudflarerecords';
+
 export const route = {
 	method: 'get',
 	path: '/cf/zones/:zone_identifier/dns_records',
@@ -9,17 +11,8 @@ export const route = {
 export default async(req, res) => {
 	log.debug({req: req}, 'received request');
 
-	let zone = req.params.zone_identifier;
-
 	try {
-		return cf.browseDNS(zone, {page: 1, per_page: 50})
-			.then(function (result) {
-			let promises = [Promise.resolve(result)];
-			for (let i = 2; i <= result.totalPages; i++) {
-				promises.push(client.browseDNS(zone, {page: i, per_page: 50}));
-			}
-			return Promise.all(promises);
-		});
+		return CfRecords.getRecords(req.params.zone_identifier);
 	} catch (error) {
 		log.error({ error: error }, 'Error listing records');
 		res.status(500).json({
