@@ -117,7 +117,7 @@ describe('Heimdall API Integration Tests', function() {
       request.get('/zones/' + zoneId + '/dns_records')
         .end(function(err, res) {
             res.body.forEach(function(record) {
-                if (record.name == 'cnamerecord') {
+                if (record.name == 'cnamerecord.heimdall.xyx') {
                     request.post('/zones/' + zoneId + '/dns_records/' + record.id)
                     .send({
                         'type': 'CNAME',
