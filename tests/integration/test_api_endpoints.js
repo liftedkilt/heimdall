@@ -70,7 +70,7 @@ describe('Heimdall API Integration Tests', function() {
           expect(res.statusCode).to.equal(200);
           expect(res.body.type).to.equal('CNAME');
           expect(res.body.content).to.equal('heimdall.xyx');
-          expect(res.body.name).to.equal('cnamerecord');
+          expect(res.body.name).to.equal('cnamerecord.heimdall.xyx');
           done();
         });
     });
