@@ -25,6 +25,6 @@ export default async(req, res) => {
 
 	res.status(200).json({
 		result: 'success',
-		message: 'Record updated',
+		message: 'Zone Synced',
 	});
 };
