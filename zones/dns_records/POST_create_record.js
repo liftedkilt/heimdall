@@ -1,6 +1,7 @@
 'use strict';
 
 const validate = require('../../lib/validate');
+import lodash from 'lodash';
 
 export const route = {
 	method: 'post',
@@ -25,6 +26,10 @@ export default async(req, res) => {
 			.then(async function(record) {
 				log.info(record.id);
 				data.id = record.id;
+
+				if (data.type == 'CNAME' && ! lodash.includes(data.name, data.content)) {
+					data.name = data.name + '.' + data.content;
+				}
 
 				// Write record to DB
 				let entry = new Records(data);
