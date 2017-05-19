@@ -70,7 +70,7 @@ describe('Heimdall API Integration Tests', function() {
           expect(res.statusCode).to.equal(200);
           expect(res.body.type).to.equal('CNAME');
           expect(res.body.content).to.equal('heimdall.xyx');
-          expect(res.body.name).to.equal('cnamerecord');
+          expect(res.body.name).to.equal('cnamerecord.heimdall.xyx');
           done();
         });
     });
@@ -117,7 +117,7 @@ describe('Heimdall API Integration Tests', function() {
       request.get('/zones/' + zoneId + '/dns_records')
         .end(function(err, res) {
             res.body.forEach(function(record) {
-                if (record.name == 'cnamerecord') {
+                if (record.name == 'cnamerecord.heimdall.xyx') {
                     request.post('/zones/' + zoneId + '/dns_records/' + record.id)
                     .send({
                         'type': 'CNAME',

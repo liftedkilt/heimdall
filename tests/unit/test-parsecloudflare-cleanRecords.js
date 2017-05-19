@@ -10,7 +10,6 @@ exports.it_should_return_a_cleaned_A_record = function(done) {
 				'type': 'A',
 				'proxied': false,
 				'zoneId': '14qk4jgnqj4f5qu4f5nkqf5nk2qf3q5j',
-				'zoneName': 'heimdall.xyz',
 				'ttl': 1,
 				'id': 'q4kjw5l7kjbwtkljqb45kj35g62j3kh6',
 	};
@@ -44,7 +43,6 @@ exports.it_should_return_a_cleaned_CNAME = function(done) {
 				'type': 'CNAME',
 				'proxied': true,
 				'zoneId': '34qk4jgnqj4d5qu4f5nkqf5nk2qf3q5x',
-				'zoneName': 'heimdall.xyz',
 				'ttl': 1,
 				'id': 'b4kjw5l7kabwtkl2qb45kj35g62j3kh6',
 	};
@@ -58,7 +56,6 @@ exports.it_should_return_a_cleaned_CNAME = function(done) {
 				'ttl': 1,
 				'locked': false,
 				'zoneId': '34qk4jgnqj4d5qu4f5nkqf5nk2qf3q5x',
-				'zoneName': 'heimdall.xyz',
 				'createdOn': '2017-05-11T14:38:48.329Z',
 				'modifiedOn': '2017-05-11T14:38:48.329Z',
 				'priority': 0,
