@@ -11,7 +11,6 @@ export const route = {
 
 export default async(req, res) => {
 	log.debug({req: req}, 'received request');
-
 	let error = validate.reqParams(req, 'cannot create record - missing required parameters');
 	if (error !== '') {
 		res.status(403).json(error);
