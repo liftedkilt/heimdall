@@ -11,7 +11,7 @@ global.cf = new cloudflare({
 });
 global.Cloudflare = require('cloudflare');
 global.log = bunyan.createLogger({'name': 'heimdall', 'level': 'info'});
-global.Records = require('./models/records');
+global.Record = require('./models/record');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db.uri);
