@@ -1,60 +1,66 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var mongoose = require('mongoose');
 
-const RecordsSchema = new Schema({
-	type: {
-		type: String,
+var RecordSchema = new mongoose.Schema({
+	content: {
 		required: true,
-		trim: true,
+		type: String,
 	},
 	name: {
-		type: String,
+		maxlength: 255,
 		required: true,
-	},
-	content: {
 		type: String,
+	},
+	type: {
+		enum: [
+			'A',
+			'AAAA',
+			'CNAME',
+			'LOC',
+			'MX',
+			'NS',
+			'SPF',
+			'SRV',
+			'TXT',
+		],
 		required: true,
-	},
-	id: {
+		trim: true,
 		type: String,
-		unique: true
-	},
-	proxied: {
-		type: Boolean,
-		default: false,
-	},
-	proxiable: {
-		type: Boolean,
-	},
-	ttl: {
-		type: Number,
-		default: 1,
 	},
 	zoneId: {
-		type: String,
 		required: true,
-	},
-	zoneName: {
 		type: String,
 	},
 	locked: {
 		type: Boolean,
 	},
-	createdOn: {
-		type: String,
-	},
-	modifiedOn: {
-		type: String,
-	},
 	priority: {
 		type: Number,
 	},
-}, {
+	proxiable: {
+		type: Boolean,
+	},
+	proxied: {
+		default: false,
+		type: Boolean,
+	},
+	ttl: {
+		default: 1,
+		type: Number,
+	},
+	zoneName: {
+		type: String,
+	},
+},
+{
 	minimize: false,
+	timestamps: {
+		createdAt: 'createdOn',
+		updatedAt: 'modifiedOn',
+	},
 });
 
-let Records = mongoose.model('Records', RecordsSchema);
+var Record = mongoose.model('Record', RecordSchema);
 
-module.exports = Records;
+module.exports = Record;

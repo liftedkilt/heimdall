@@ -37,7 +37,7 @@ export default async(req, res) => {
 		}
 
 		try {
-			await Records.findOneAndUpdate({
+			await Record.findOneAndUpdate({
 						id: data.id,
 						zoneId: data.zoneId,
 					},

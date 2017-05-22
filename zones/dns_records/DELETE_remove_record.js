@@ -17,7 +17,7 @@ export default async(req, res) => {
 	let generatedRecord = await Cloudflare.DNSRecord.create(data);
 	let record = await Remap.reqParams(req);
 	// TODO: try/catch
-	Records.findOneAndRemove(record).exec();
+	Record.findOneAndRemove(record).exec();
 
 	cf.deleteDNS(generatedRecord);
 
