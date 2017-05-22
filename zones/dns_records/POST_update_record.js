@@ -23,7 +23,7 @@ export default async(req, res) => {
 		data.zoneId = req.params.zone_identifier;
 
 		let generatedRecord = Cloudflare.DNSRecord.create(data);
-		log.info(generatedRecord);
+		log.info('Updating record with new info: ', data);
 
 		try {
 			await cf.editDNS(generatedRecord);

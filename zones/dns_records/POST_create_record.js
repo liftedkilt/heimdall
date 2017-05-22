@@ -20,7 +20,6 @@ export default async(req, res) => {
 
 		try {
 			let generatedRecord = Cloudflare.DNSRecord.create(data);
-
 			return cf.addDNS(generatedRecord)
 			.then(async function(record) {
 				log.info(record.id);
@@ -33,6 +32,7 @@ export default async(req, res) => {
 				// Write record to DB
 				let entry = new Records(data);
 				await entry.save();
+				log.debug('Record %s was created in DB', record.id);
 				return data;
 			});
 		} catch(error) {

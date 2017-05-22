@@ -12,6 +12,7 @@ export default async(req, res) => {
 	log.debug({req: req}, 'received request');
 
 	try {
+		log.debug('The records were retrieved from Cloudflare for zone: %s', req.params.zone_identifier);
 		return CfRecords.getRecords(req.params.zone_identifier);
 	} catch (error) {
 		log.error({ error: error }, 'Error listing records');
