@@ -42,6 +42,21 @@ describe('Heimdall API Integration Tests', function() {
     });
   });
 
+  // Verify sync shows no records to change
+  describe('#PATCH /zones/:zoneId/sync', function() {
+    it('should return empty', function(done) {
+      request.patch('/zones/' + zoneId + '/sync')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body.added).to.be.empty;
+          expect(res.body.deleted).to.be.empty;
+          expect(res.body.updated).to.be.empty;
+          done();
+        });
+    });
+  });
+
 // Create CNAME and A records
   describe('#POST /zones/:zoneId/dns_records', function() {
     it('should create a new A record', function(done) {
@@ -170,6 +185,4 @@ describe('Heimdall API Integration Tests', function() {
         });
     });
   });
-
-
 });
